@@ -1,0 +1,859 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SocialPilot AI</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main id="landingPage" class="landing-page">
+    <header class="landing-nav">
+      <div class="brand">
+        <span class="brand-mark"><span>SP</span></span>
+        <div>
+          <h1>SocialPilot AI</h1>
+          <p data-i18n="brandTagline">Student + creator workspace</p>
+        </div>
+      </div>
+      <nav>
+        <a href="#landingFeatures" data-i18n="features">Features</a>
+        <a href="#landingPricing" data-i18n="pricing">Pricing</a>
+        <a href="#landingAbout" data-i18n="about">About</a>
+        <select id="languageSelectLanding" class="language-select" onchange="setLanguage(this.value)">
+          <option value="en">English</option>
+          <option value="am">አማርኛ</option>
+          <option value="ar">العربية</option>
+        </select>
+        <button onclick="openLogin('signin')" data-i18n="login">Login</button>
+      </nav>
+    </header>
+    <section class="landing-hero">
+      <div>
+        <p class="eyebrow" data-i18n="landingEyebrow">AI assistant for school and social growth</p>
+        <h2 data-i18n="landingHeadline">Create better posts, finish assignments faster, and manage content from one smart workspace.</h2>
+        <p data-i18n="landingCopy">SocialPilot AI combines a student helper, media analyzer, content calendar, and social publishing workflow with Supabase login and admin-owned AI keys.</p>
+        <div class="inline-actions">
+          <button onclick="openLogin('signup')" data-i18n="startFree">Start Free</button>
+          <button class="secondary" onclick="document.getElementById('landingFeatures').scrollIntoView()" data-i18n="viewFeatures">View Features</button>
+        </div>
+      </div>
+      <div class="landing-demo">
+        <div class="demo-phone">
+          <strong data-i18n="instagramPreview">Instagram Preview</strong>
+          <p data-i18n="demoCaption">New gaming keyboard setup is live.</p>
+          <span>#GamingSetup #DeskSetup</span>
+        </div>
+        <div class="demo-card">
+          <strong data-i18n="aiSuggestion">AI Suggestion</strong>
+          <p data-i18n="demoSuggestion">Use a stronger first-line hook and ask viewers to rate the setup.</p>
+        </div>
+      </div>
+    </section>
+    <section id="landingFeatures" class="landing-section">
+      <p class="eyebrow" data-i18n="features">Features</p>
+      <h3 data-i18n="featuresHeadline">Everything a class defense needs to feel like a real product.</h3>
+      <div class="feature-grid">
+        <article class="feature-card"><h4 data-i18n="aiGenerator">AI Generator</h4><p data-i18n="aiGeneratorCopy">Captions, hashtags, calls-to-action, image prompts, and templates.</p></article>
+        <article class="feature-card"><h4 data-i18n="studentAssistant">Student Assistant</h4><p data-i18n="studentAssistantCopy">Floating helper for assignments, planning, and productivity inside the app.</p></article>
+        <article class="feature-card"><h4 data-i18n="contentCalendar">Content Calendar</h4><p data-i18n="contentCalendarCopy">Schedule drafts and posts while keeping publishing safe by default.</p></article>
+      </div>
+    </section>
+    <section id="landingPricing" class="landing-section">
+      <p class="eyebrow" data-i18n="pricing">Pricing</p>
+      <h3 data-i18n="pricingHeadline">Startup-style plans</h3>
+      <div class="pricing-grid">
+        <article class="mini-card"><h4>Free</h4><p>Student workspace, drafts, and AI chat.</p><strong>$0</strong></article>
+        <article class="mini-card"><h4>Pro</h4><p>Brand kit, media analysis, templates, and scheduling.</p><strong>$9/mo</strong></article>
+        <article class="mini-card"><h4>Business</h4><p>Team roles, connected accounts, and analytics APIs.</p><strong>$29/mo</strong></article>
+      </div>
+    </section>
+    <section id="landingAbout" class="landing-section">
+      <p class="eyebrow" data-i18n="about">About</p>
+      <h3 data-i18n="aboutHeadline">Built around human review and official APIs.</h3>
+      <p class="note" data-i18n="aboutCopy">The app does not fake social engagement. It uses real local activity and clearly marks external platform features that need official OAuth permissions.</p>
+    </section>
+  </main>
+
+  <div id="loginOverlay" class="login-overlay hidden">
+    <form class="login-card" onsubmit="loginUser(event)">
+      <div class="logo-lockup">
+        <span class="brand-mark logo-large"><span>SP</span></span>
+        <div>
+          <h1>SocialPilot AI</h1>
+          <p data-i18n="authBrandTagline">Student + social media assistant</p>
+        </div>
+      </div>
+      <h1 id="authTitle">Sign in to SocialPilot AI</h1>
+      <p id="authSubtitle">Use your existing account, or switch to Create Account if you are new.</p>
+      <div class="auth-tabs">
+        <button id="signinTab" type="button" onclick="setAuthMode('signin')">Sign In</button>
+        <button id="signupTab" type="button" class="secondary" onclick="setAuthMode('signup')">Create Account</button>
+      </div>
+      <input id="loginEmail" type="email" placeholder="email@example.com">
+      <input id="loginPassword" type="password" placeholder="Password">
+      <fieldset id="signupProfileFields" class="signup-profile hidden">
+        <legend data-i18n="newUserProfile">New user profile</legend>
+        <div class="signup-grid">
+          <input id="firstName" placeholder="First name">
+          <input id="middleName" placeholder="Middle name">
+          <input id="lastName" placeholder="Last name">
+          <input id="phoneNumber" type="tel" placeholder="Phone number">
+          <input id="country" placeholder="Country">
+          <select id="userCategory">
+            <option value="" data-i18n="chooseCategory">Choose category</option>
+            <option data-i18n="student">Student</option>
+            <option data-i18n="creator">Social Media Creator</option>
+            <option data-i18n="businessOwner">Small Business Owner</option>
+            <option data-i18n="schoolClub">School Club / Team</option>
+            <option data-i18n="marketingManager">Marketing Manager</option>
+            <option data-i18n="teacherTutor">Teacher / Tutor</option>
+            <option data-i18n="other">Other</option>
+          </select>
+          <input id="careerField" placeholder="Career / study field">
+          <input id="schoolOrCompany" placeholder="School / company">
+        </div>
+        <textarea id="mainGoal" placeholder="Main goal: e.g. finish assignments, grow Instagram, manage a school club"></textarea>
+        <p class="note" data-i18n="profileHelp">These details are used to personalize the assistant after account creation.</p>
+      </fieldset>
+      <div class="inline-actions">
+        <button id="authSubmitButton" type="submit">Sign In</button>
+      </div>
+      <div class="divider"><span>or</span></div>
+      <button type="button" class="google-button" onclick="continueWithGoogle()">
+        <span class="google-dot">G</span>
+        <span>Continue with Google</span>
+      </button>
+      <p id="loginMessage" class="note"></p>
+    </form>
+  </div>
+
+  <main id="appShell" class="app-shell requires-auth">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark"><span>SP</span></span>
+        <div>
+          <h1>SocialPilot AI</h1>
+          <p data-i18n="workspaceTagline">AI social media workspace</p>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow" data-i18n="mvpPlatform">MVP demo platform</p>
+        <h2 data-i18n="appHeadline">AI workspace for students, creators, and social media teams.</h2>
+        <p class="hero-copy" data-i18n="appCopy">Generate content, analyze uploads, schedule posts, manage accounts, and get study help from a floating assistant.</p>
+      </div>
+      <div class="top-actions">
+        <span class="pill" data-i18n="aiReady">AI ready</span>
+        <span class="pill muted" data-i18n="humanReview">Human review first</span>
+        <select id="languageSelectApp" class="language-select" onchange="setLanguage(this.value)">
+          <option value="en">English</option>
+          <option value="am">አማርኛ</option>
+          <option value="ar">العربية</option>
+        </select>
+        <div class="profile-menu">
+          <button id="profileButton" class="profile-button" onclick="toggleProfileMenu()" aria-label="Open profile menu">
+            <span id="profileAvatar">U</span>
+          </button>
+          <div id="profileDropdown" class="profile-dropdown hidden">
+            <strong id="profileName">User</strong>
+            <p id="profileEmail">not signed in</p>
+            <button class="secondary" onclick="showView('profile'); closeProfileMenu()">Profile</button>
+            <button id="profileSettingsButton" class="secondary" onclick="showView('settings'); closeProfileMenu()">Admin Settings</button>
+            <button onclick="logoutUser()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="page-nav">
+      <button class="nav-button active" data-view="dashboard" onclick="showView('dashboard')" data-i18n="dashboard">Dashboard</button>
+      <button class="nav-button" data-view="generator" onclick="showView('generator')" data-i18n="generator">Generator</button>
+      <button class="nav-button" data-view="drafts" onclick="showView('drafts')" data-i18n="drafts">Drafts</button>
+      <button class="nav-button" data-view="calendar" onclick="showView('calendar')" data-i18n="calendar">Calendar</button>
+      <button class="nav-button" data-view="assistant" onclick="showView('assistant')" data-i18n="assistant">Assistant</button>
+      <button class="nav-button" data-view="labs" onclick="showView('labs')" data-i18n="labs">Labs</button>
+      <button class="nav-button" data-view="accounts" onclick="showView('accounts')" data-i18n="accounts">Accounts</button>
+      <button class="nav-button" data-view="profile" onclick="showView('profile')" data-i18n="profile">Profile</button>
+      <button class="nav-button" data-view="team" onclick="showView('team')" data-i18n="team">Team</button>
+      <button class="nav-button" data-view="tasks" onclick="showView('tasks')" data-i18n="tasks">Tasks</button>
+      <button class="nav-button" data-view="defense" onclick="showView('defense')" data-i18n="defense">Defense</button>
+      <button class="nav-button" data-view="settings" onclick="showView('settings')" data-i18n="settings">Settings</button>
+    </nav>
+
+    <section id="dashboard" class="section view active">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Overview</p>
+          <h3>Business Dashboard</h3>
+        </div>
+        <button onclick="refreshAll()">Refresh</button>
+      </div>
+      <div class="kpi-grid" id="kpiGrid"></div>
+      <div class="hero-band">
+        <div>
+          <p class="eyebrow">What makes it real</p>
+          <h3>Admin-owned AI, Supabase users, and official API publishing.</h3>
+          <p>Users sign in, create content, upload media, and connect social accounts. The app avoids fake analytics and only posts through real platform permissions.</p>
+        </div>
+        <div class="hero-visual">
+          <span>AI</span>
+          <span>Auth</span>
+          <span>Posts</span>
+          <span>Study</span>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h4>Problem</h4>
+          <p>Small teams waste time writing posts, guessing hashtags, and switching between social platforms.</p>
+        </article>
+        <article class="feature-card">
+          <h4>Solution</h4>
+          <p>An AI assistant drafts content, saves drafts, builds a calendar, and keeps social posting review-first.</p>
+        </article>
+        <article class="feature-card">
+          <h4>Startup Potential</h4>
+          <p>Businesses already pay for tools like Buffer and Hootsuite. This MVP adds AI as the main advantage.</p>
+        </article>
+      </div>
+      <div class="split dashboard-extra">
+        <div class="panel">
+          <h4>Notifications</h4>
+          <div id="notificationList" class="timeline"></div>
+        </div>
+        <div class="panel">
+          <h4>Activity Timeline</h4>
+          <div id="activityList" class="timeline"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="generator" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Phase 1</p>
+          <h3>AI Content Generator</h3>
+        </div>
+      </div>
+      <div class="split">
+        <div class="panel">
+          <label>Topic or business idea
+            <textarea id="contentTopic" placeholder="Create an Instagram post about my new gaming keyboard"></textarea>
+          </label>
+          <div class="form-grid">
+            <label>Platform
+              <select id="contentPlatform">
+                <option>instagram</option>
+                <option>tiktok</option>
+                <option>linkedin</option>
+                <option>youtube</option>
+                <option>facebook</option>
+              </select>
+            </label>
+            <label>Tone
+              <select id="contentTone">
+                <option>professional</option>
+                <option>excited</option>
+                <option>friendly</option>
+                <option>luxury</option>
+                <option>funny</option>
+              </select>
+            </label>
+          </div>
+          <button onclick="generateContentPack()">Generate Content Pack</button>
+        </div>
+        <div class="panel output-panel">
+          <h4>Generated Pack</h4>
+          <div id="contentPack" class="structured-output"></div>
+          <textarea id="postText" placeholder="Generated caption appears here, or write manually"></textarea>
+          <div class="form-grid">
+            <label>Publish platform
+              <select id="postPlatform">
+                <option>instagram</option>
+                <option>x</option>
+              </select>
+            </label>
+            <label>Image URL
+              <input id="imageUrl" placeholder="Required for real Instagram publishing">
+            </label>
+          </div>
+          <div class="inline-actions">
+            <label class="check"><input type="checkbox" id="dryRun" checked> Dry run</label>
+            <button onclick="publishPost()">Publish</button>
+            <button class="secondary" onclick="saveCurrentDraft()">Save Draft</button>
+          </div>
+          <pre id="postOutput"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="drafts" class="section view">
+      <div class="section-head"><div><p class="eyebrow">Work in progress</p><h3>Drafts</h3></div></div>
+      <div class="panel">
+        <div class="form-grid">
+          <input id="draftTitle" placeholder="Draft title">
+          <select id="draftSavePlatform"><option>instagram</option><option>tiktok</option><option>linkedin</option><option>youtube</option></select>
+          <button onclick="saveCurrentDraft()">Save Current Post</button>
+        </div>
+        <div id="draftList" class="timeline"></div>
+      </div>
+    </section>
+
+    <section id="templates" class="section view">
+      <div class="section-head"><div><p class="eyebrow">Reusable content</p><h3>Templates</h3></div></div>
+      <div class="panel">
+        <div id="templateList" class="feature-grid"></div>
+      </div>
+    </section>
+
+    <section id="brandkit" class="section view">
+      <div class="section-head"><div><p class="eyebrow">Brand memory</p><h3>Brand Kit</h3></div></div>
+      <div class="panel">
+        <div class="form-grid">
+          <input id="brandCompany" placeholder="Company name">
+          <input id="brandVoice" placeholder="Brand voice">
+          <input id="brandColors" placeholder="Brand colors">
+          <input id="brandLogo" placeholder="Logo text or URL">
+        </div>
+        <button onclick="saveBrandKit()">Save Brand Kit</button>
+        <pre id="brandKitOutput"></pre>
+      </div>
+    </section>
+
+    <section id="preview" class="section view">
+      <div class="section-head"><div><p class="eyebrow">Before publishing</p><h3>Mobile Preview</h3></div></div>
+      <div class="split">
+        <div class="panel">
+          <textarea id="previewText" placeholder="Paste or generate a post, then preview it"></textarea>
+          <button onclick="renderMobilePreview()">Render Preview</button>
+        </div>
+        <div class="panel preview-stage">
+          <div class="phone-preview">
+            <div class="phone-top">Instagram</div>
+            <div class="phone-media">Media</div>
+            <p id="phoneCaption">Caption preview appears here.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="media" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">AI media understanding</p>
+          <h3>Upload Image, Video, or Story Asset</h3>
+        </div>
+      </div>
+      <div class="split">
+        <div class="panel">
+          <label>Media file
+            <input id="mediaFile" type="file" accept="image/*,video/*">
+          </label>
+          <div class="form-grid">
+            <label>Platform
+              <select id="mediaPlatform">
+                <option>instagram</option>
+                <option>tiktok</option>
+                <option>youtube</option>
+                <option>facebook</option>
+                <option>linkedin</option>
+              </select>
+            </label>
+            <label>Goal
+              <input id="mediaGoal" value="more views and engagement">
+            </label>
+          </div>
+          <button onclick="analyzeMedia()">Analyze and Write Caption</button>
+          <p class="note">Images and smaller videos can be sent to Gemini for analysis. Larger videos are saved locally and summarized from metadata unless you add a video-processing service later.</p>
+        </div>
+        <div class="panel">
+          <h4>Preview</h4>
+          <div id="mediaPreview" class="media-preview"></div>
+          <h4>AI Output</h4>
+          <pre id="mediaOutput"></pre>
+          <button class="secondary" onclick="copyMediaCaptionToPost()">Use Output in Publisher</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="labs" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Optional features</p>
+          <h3>Labs and Future Features</h3>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h4>Media Analyzer</h4>
+          <p>Upload images/videos and ask AI for captions. Works when the configured AI provider supports media.</p>
+          <button class="secondary" onclick="showView('media')">Open</button>
+        </article>
+        <article class="feature-card">
+          <h4>Templates</h4>
+          <p>Reusable prompts for launch posts, sales, gaming news, and study reminders.</p>
+          <button class="secondary" onclick="showView('templates')">Open</button>
+        </article>
+        <article class="feature-card">
+          <h4>Brand Kit</h4>
+          <p>Store company name, voice, colors, and logo notes so AI can match the brand.</p>
+          <button class="secondary" onclick="showView('brandkit')">Open</button>
+        </article>
+        <article class="feature-card">
+          <h4>Mobile Preview</h4>
+          <p>Preview post text in a phone-style layout before scheduling or publishing.</p>
+          <button class="secondary" onclick="showView('preview')">Open</button>
+        </article>
+        <article class="feature-card">
+          <h4>Analytics</h4>
+          <p>Shows real local publish attempts and API connection status, not fake engagement.</p>
+          <button class="secondary" onclick="showView('analytics')">Open</button>
+        </article>
+        <article class="feature-card">
+          <h4>Competitor Analysis</h4>
+          <p>Future-ready helper for ethical public-page research. No scraping or private data access.</p>
+          <button class="secondary" onclick="showView('competitor')">Open</button>
+        </article>
+        <article class="feature-card">
+          <h4>Image Prompt AI</h4>
+          <p>Generates image prompts for future poster generation tools.</p>
+          <button class="secondary" onclick="showView('imagegen')">Open</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="calendar" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Phase 2</p>
+          <h3>Content Calendar</h3>
+        </div>
+      </div>
+      <div class="split">
+        <div class="panel">
+          <div class="form-grid">
+            <label>Type
+              <select id="scheduleKind">
+                <option>post</option>
+                <option>reminder</option>
+              </select>
+            </label>
+            <label>Date and time
+              <input id="scheduleWhen" placeholder="2026-06-08 09:00">
+            </label>
+            <label>Platform
+              <select id="schedulePlatform">
+                <option>instagram</option>
+                <option>x</option>
+                <option>linkedin</option>
+                <option>tiktok</option>
+                <option>youtube</option>
+              </select>
+            </label>
+          </div>
+          <textarea id="scheduleText" placeholder="Post caption or reminder text"></textarea>
+          <div class="inline-actions">
+            <button onclick="addSchedule()">Schedule</button>
+            <button class="secondary" onclick="runSchedule()">Run Due Now</button>
+          </div>
+          <pre id="scheduleOutput"></pre>
+        </div>
+        <div class="panel">
+          <h4>Monthly View</h4>
+          <div id="calendarGrid" class="calendar-grid"></div>
+          <div id="scheduleList" class="timeline"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="analytics" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Phase 3</p>
+          <h3>Analytics Dashboard</h3>
+        </div>
+      </div>
+      <div class="analytics-layout">
+        <div class="panel">
+          <h4>Real Publish History</h4>
+          <p class="note">This shows real local publish attempts made from this app. It does not invent likes or reach.</p>
+          <div id="publishHistory" class="timeline"></div>
+        </div>
+        <div class="panel">
+          <h4>Analytics Availability</h4>
+          <div id="analyticsStatus" class="stat-list"></div>
+          <pre id="analyticsNote"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="assistant" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">AI workflow</p>
+          <h3>Strategy and Reply Assistant</h3>
+        </div>
+      </div>
+      <div class="split">
+        <div class="panel">
+          <h4>Chat Assistant</h4>
+          <div id="chatMessages" class="chat-box"></div>
+          <div class="inline-actions">
+            <input id="chatInput" placeholder="Ask: Why is engagement dropping?">
+            <button onclick="sendChat()">Send</button>
+            <button class="secondary" onclick="startVoiceInput('chatInput')">Voice</button>
+            <button class="secondary" onclick="speakLastAssistant()">Read</button>
+          </div>
+        </div>
+        <div class="panel">
+          <h4>Content Strategy Agent</h4>
+          <input id="brandInput" placeholder="Business: coffee shop, gaming store, clothing brand">
+          <input id="goalInput" placeholder="Goal: grow followers, improve engagement, launch product">
+          <button onclick="generateStrategy()">Build Weekly Plan</button>
+          <div id="strategyOutput" class="structured-output"></div>
+        </div>
+        <div class="panel full-width">
+          <h4>Auto Reply Suggestion</h4>
+          <textarea id="commentInput" placeholder="Customer comment: Do you ship internationally?"></textarea>
+          <button onclick="suggestReply()">Suggest Reply</button>
+          <pre id="replyOutput"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="competitor" class="section view">
+      <div class="section-head"><div><p class="eyebrow">Research</p><h3>Competitor Analysis</h3></div></div>
+      <div class="panel">
+        <div class="inline-actions">
+          <input id="competitorHandle" placeholder="@competitor or public page">
+          <button onclick="analyzeCompetitor()">Analyze</button>
+        </div>
+        <pre id="competitorOutput"></pre>
+      </div>
+    </section>
+
+    <section id="imagegen" class="section view">
+      <div class="section-head"><div><p class="eyebrow">Creative lab</p><h3>AI Image Prompt Generator</h3></div></div>
+      <div class="panel">
+        <div class="form-grid">
+          <input id="imageIdea" placeholder="Create an Instagram poster for a gaming tournament">
+          <select id="imagePlatform"><option>instagram</option><option>tiktok</option><option>youtube</option><option>linkedin</option></select>
+          <button onclick="generateImagePrompt()">Generate Prompt</button>
+        </div>
+        <pre id="imagePromptOutput"></pre>
+      </div>
+    </section>
+
+    <section id="accounts" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Integrations</p>
+          <h3>Multi-Account Management</h3>
+        </div>
+      </div>
+      <div class="panel">
+        <p class="note">Each logged-in user can save their own Instagram Graph API publishing credentials. The app supports official posting only, with human review before publishing.</p>
+        <div id="accountList" class="account-grid"></div>
+        <div class="panel soft-panel">
+          <h4>Connect Your Instagram Publishing Account</h4>
+          <p class="note">Use an Instagram Business or Creator account connected to a Facebook Page. The User ID must be the Instagram Graph API user ID, not only your @username.</p>
+          <div class="form-grid">
+            <label>Instagram handle
+              <input id="instagramHandle" placeholder="@your_handle">
+            </label>
+            <label>Instagram Graph User ID
+              <input id="instagramUserId" placeholder="Example: 1784...">
+            </label>
+            <label>Access token
+              <input id="instagramAccessToken" type="password" placeholder="Paste token to save or rotate">
+            </label>
+          </div>
+          <div class="inline-actions">
+            <button onclick="saveInstagramAccount()">Save Instagram Account</button>
+            <button class="secondary" onclick="loadUserInstagramAccount()">Reload Saved Account</button>
+          </div>
+          <pre id="instagramAccountOutput"></pre>
+        </div>
+        <div class="feature-grid">
+          <article class="mini-card">
+            <h4>Supported Now</h4>
+            <p>Generate captions, review posts, and publish Instagram image posts through the official Graph API.</p>
+          </article>
+          <article class="mini-card">
+            <h4>Not Supported</h4>
+            <p>Auto-like, auto-follow, spam comments, and password-based browser automation are blocked to protect accounts.</p>
+          </article>
+          <article class="mini-card">
+            <h4>Needed For Real Posting</h4>
+            <p>Public image URL, Graph User ID, access token, and content publishing permission.</p>
+          </article>
+        </div>
+        <div class="connect-grid">
+          <button onclick="showConnectHelp('Instagram')">Connect Instagram</button>
+          <button onclick="showConnectHelp('X/Twitter')">Connect X/Twitter</button>
+          <button onclick="showConnectHelp('TikTok')">Connect TikTok</button>
+          <button onclick="showConnectHelp('LinkedIn')">Connect LinkedIn</button>
+          <button onclick="showConnectHelp('YouTube')">Connect YouTube</button>
+        </div>
+        <pre id="connectOutput"></pre>
+      </div>
+    </section>
+
+    <section id="profile" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Account</p>
+          <h3>Profile Settings</h3>
+        </div>
+      </div>
+      <div class="panel">
+        <p class="note">Edit your personal information. The assistant uses this to personalize study help and content suggestions.</p>
+        <div class="form-grid">
+          <input id="profileFirstName" placeholder="First name">
+          <input id="profileMiddleName" placeholder="Middle name">
+          <input id="profileLastName" placeholder="Last name">
+          <input id="profilePhoneNumber" type="tel" placeholder="Phone number">
+          <input id="profileCountry" placeholder="Country">
+          <select id="profileCategory">
+            <option value="">Choose category</option>
+            <option>Student</option>
+            <option>Social Media Creator</option>
+            <option>Small Business Owner</option>
+            <option>School Club / Team</option>
+            <option>Marketing Manager</option>
+            <option>Teacher / Tutor</option>
+            <option>Other</option>
+          </select>
+          <input id="profileCareerField" placeholder="Career / study field">
+          <input id="profileSchoolOrCompany" placeholder="School / company">
+        </div>
+        <textarea id="profileMainGoal" placeholder="Main goal"></textarea>
+        <button onclick="saveProfile()">Save Profile</button>
+        <pre id="profileOutput"></pre>
+      </div>
+    </section>
+
+    <section id="team" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">For 15 people</p>
+          <h3>Team Collaboration</h3>
+        </div>
+      </div>
+      <div class="panel">
+        <div id="teamList" class="team-grid"></div>
+        <div class="form-grid">
+          <input id="memberName" placeholder="Member name">
+          <input id="memberRole" placeholder="Role: UI, backend, presenter, research">
+        </div>
+        <button onclick="addTeamMember()">Add Team Member</button>
+      </div>
+    </section>
+
+    <section id="tasks" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Execution</p>
+          <h3>Project Tasks</h3>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="inline-actions">
+          <input id="taskText" placeholder="Add a class defense task">
+          <button onclick="addTask()">Add</button>
+        </div>
+        <div id="taskList" class="timeline"></div>
+      </div>
+    </section>
+
+    <section id="settings" class="section view">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Configuration</p>
+          <h3>API Settings</h3>
+        </div>
+      </div>
+      <div class="panel settings-panel">
+        <p class="note">Admin settings. The AI key is stored on the server so normal users do not need their own AI API key.</p>
+        <div class="form-grid">
+          <label>Admin Email
+            <input id="adminEmail" value="{{ env.ADMIN_EMAIL }}">
+          </label>
+          <label>Supabase URL
+            <input id="supabaseUrl" value="{{ env.SUPABASE_URL }}">
+          </label>
+          <label>Supabase Anon Key
+            <input id="supabaseAnonKey" type="password" placeholder="{{ env.SUPABASE_ANON_KEY }}">
+          </label>
+          <label>AI Provider
+            <select id="aiProvider">
+              <option value="gemini">gemini</option>
+              <option value="openai">openai</option>
+            </select>
+          </label>
+          <label>Gemini Model
+            <input id="geminiModel" value="{{ env.GEMINI_MODEL }}">
+          </label>
+          <label>Gemini API Key
+            <input id="geminiKey" type="password" placeholder="{{ env.GEMINI_API_KEY or 'not set' }}">
+          </label>
+          <label>OpenAI Model
+            <select id="openaiModel">
+              <option value="gpt-5.3-chat-latest">gpt-5.3-chat-latest</option>
+              <option value="gpt-audio">gpt-audio</option>
+              <option value="gpt-4o-mini">gpt-4o-mini</option>
+              <option value="gpt-4o-mini-search-preview">gpt-4o-mini-search-preview</option>
+              <option value="gpt-4.1-mini">gpt-4.1-mini</option>
+            </select>
+          </label>
+          <label>OpenAI API Key
+            <input id="openaiKey" type="password" placeholder="{{ env.OPENAI_API_KEY or 'not set' }}">
+          </label>
+          <label>Instagram User ID
+            <input id="igUserId" value="{{ env.INSTAGRAM_USER_ID }}">
+          </label>
+          <label>Instagram Access Token
+            <input id="igToken" type="password" placeholder="{{ env.INSTAGRAM_ACCESS_TOKEN or 'not set' }}">
+          </label>
+        </div>
+        <button onclick="saveSettings()">Save Settings</button>
+        <pre id="settingsOutput"></pre>
+      </div>
+    </section>
+
+    <section class="section view" id="defense">
+      <div class="panel defense-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Presentation guide</p>
+            <h3>Class Defense Talking Points</h3>
+          </div>
+        </div>
+        <div class="defense-grid">
+          <article>
+            <h4>1. Problem</h4>
+            <p>Students and small creators waste time switching between writing tools, planners, and social platforms. They need one simple workspace for content, school help, and scheduling.</p>
+          </article>
+          <article>
+            <h4>2. Solution</h4>
+            <p>SocialPilot AI combines login, AI content generation, drafts, scheduling, a calendar, and a student assistant in one dashboard.</p>
+          </article>
+          <article>
+            <h4>3. Target Users</h4>
+            <p>Students, school clubs, small businesses, content creators, and teams that need help planning and publishing content.</p>
+          </article>
+          <article>
+            <h4>4. Core MVP</h4>
+            <p>Landing page, Supabase login, dashboard, AI generator, drafts, calendar, assistant, accounts, team roles, tasks, and admin settings.</p>
+          </article>
+          <article>
+            <h4>5. Architecture</h4>
+            <p>Python backend, HTML/CSS/JavaScript frontend, Supabase Auth, OpenAI/Gemini AI provider support, and local JSON storage for MVP data.</p>
+          </article>
+          <article>
+            <h4>6. Security</h4>
+            <p>Normal users do not see API keys. Admin-only settings store AI keys server-side. Social posting uses official APIs only.</p>
+          </article>
+          <article>
+            <h4>7. Real Data Policy</h4>
+            <p>The app does not fake likes, reach, or comments. It only shows real local activity and marks external analytics as requiring official API permissions.</p>
+          </article>
+          <article>
+            <h4>8. Limitations</h4>
+            <p>Auto-posting and analytics need approved Instagram/X API credentials. Always-on scheduling needs cloud hosting or another always-on server.</p>
+          </article>
+          <article>
+            <h4>9. Team Contribution</h4>
+            <p>Roles can be split into frontend, backend, AI prompts, Supabase auth, social API research, testing, documentation, and presentation.</p>
+          </article>
+        </div>
+        <div class="defense-flow">
+          <h4>Recommended Live Demo Flow</h4>
+          <ol>
+            <li>Show the landing page and explain the problem.</li>
+            <li>Log in as a user.</li>
+            <li>Open Dashboard and explain real activity metrics.</li>
+            <li>Generate a social media post with AI.</li>
+            <li>Save it as a draft.</li>
+            <li>Schedule it on the calendar.</li>
+            <li>Use the student assistant for an assignment question.</li>
+            <li>Show Team and Tasks to prove collaboration.</li>
+            <li>Explain Labs as future-ready features, not the main MVP.</li>
+          </ol>
+        </div>
+        <div class="defense-roadmap">
+          <article>
+            <h4>Next Version</h4>
+            <p>Move local JSON storage to Supabase database tables and add stronger user profiles.</p>
+          </article>
+          <article>
+            <h4>Production Version</h4>
+            <p>Add OAuth for Instagram, X/Twitter, LinkedIn, TikTok, and YouTube using official platform rules.</p>
+          </article>
+          <article>
+            <h4>Startup Version</h4>
+            <p>Add subscriptions, cloud scheduling, brand voice training, analytics APIs, and approval workflows.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <strong>SocialPilot AI</strong>
+        <p>Built as a student-ready MVP for AI content creation, learning support, scheduling, and safe social publishing.</p>
+      </div>
+      <div class="footer-links">
+        <span>Supabase Auth</span>
+        <span>OpenAI/Gemini AI</span>
+        <span>Official APIs only</span>
+        <span>Human review first</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    window.initialProvider = "{{ env.AI_PROVIDER }}";
+    window.initialOpenAIModel = "{{ env.OPENAI_MODEL }}";
+    window.adminEmail = "{{ env.ADMIN_EMAIL }}";
+    window.supabaseConfig = {
+      url: "{{ env.SUPABASE_URL }}",
+      anonKey: "{{ env.SUPABASE_ANON_KEY }}"
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/static/app.js"></script>
+
+  <button id="floatAssistantButton" class="float-button" onclick="toggleFloatingAssistant()" aria-label="Open AI assistant">
+    <span>AI</span>
+  </button>
+  <section id="floatingAssistant" class="floating-assistant hidden">
+    <header class="assistant-header">
+      <div>
+        <span class="assistant-avatar">AI</span>
+        <div>
+          <strong>Student Assistant</strong>
+          <p id="voiceStatus">Ready to help</p>
+        </div>
+      </div>
+      <button class="icon-button" onclick="toggleFloatingAssistant()" aria-label="Close assistant">×</button>
+    </header>
+    <div class="assistant-chips">
+      <button class="secondary" onclick="useQuickPrompt('Explain my assignment step by step')">Assignment</button>
+      <button class="secondary" onclick="useQuickPrompt('Create a study plan for today')">Study Plan</button>
+      <button class="secondary" onclick="useQuickPrompt('Improve this social media caption')">Caption</button>
+    </div>
+    <div id="floatingMessages" class="chat-box small"></div>
+    <div class="assistant-compose">
+      <input id="floatingInput" placeholder="Ask about homework, posts, or planning">
+      <button onclick="sendFloatingChat()">Send</button>
+    </div>
+    <div class="assistant-controls">
+      <button class="secondary" onclick="startVoiceInput('floatingInput')">Voice Input</button>
+      <button class="secondary" onclick="speakLastAssistant()">Read Answer</button>
+      <button class="secondary" onclick="stopSpeaking()">Stop</button>
+    </div>
+  </section>
+</body>
+</html>
+
